@@ -1,0 +1,26 @@
+---
+# tasks file for win_service_config
+- name: install Windows package
+  win_chocolatey:
+    name: "{{ package_name }}"
+    params: "{{ params }} "
+    state: latest
+  when: ansible_os_family == "Windows"
+
+- name: start service
+  win_service:
+    name: "{{ service }}"
+    state: started
+    start_mode: auto
+  when: ansible_os_family == "Windows"
+
+- name: add firewall rule
+  win_firewall_rule:
+    name: "{{ service }}"
+    localport: "{{ local_port }}"
+    action: allow
+    direction: in
+    protocol: "{{ protocol }}"
+    state: present
+    enabled: yes
+...

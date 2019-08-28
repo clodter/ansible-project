@@ -1,0 +1,4 @@
+---
+# handlers file for win_ad_install
+- name: reboot windows servers
+  win_reboot:
