@@ -1,0 +1,39 @@
+[GenericExample:vars]
+
+###########################################################################
+### Ansible Vars
+###########################################################################
+timeout=60
+ansible_become=yes
+ansible_user=ec2-user
+
+
+[GenericExample:children]
+towers
+windows
+support
+
+[towers]
+## These are the towers
+tower1.b244.internal public_host_name=tower1.b244.example.opentlc.com ssh_host=tower3.b244.internal
+tower2.b244.internal public_host_name=tower2.b244.example.opentlc.com ssh_host=tower1.b244.internal
+tower3.b244.internal public_host_name=tower3.b244.example.opentlc.com ssh_host=tower2.b244.internal
+
+
+[windows]
+## These are the activedirectory servers
+ad1.b244.internal ssh_host=ad1.b244.example.opentlc.com ansible_password=jVMijRwLbI02gFCo2xkjlZ9lxEA7bm7zgg==
+
+
+## These are the supporthosts
+[support]
+support1.b244.internal ssh_host=support2.b244.internal
+support2.b244.internal ssh_host=support1.b244.internal
+
+[windows:vars]
+ansible_connection=winrm
+ansible_user=Administrator
+ansible_winrm_server_cert_validation=ignore
+ansible_become=false
+GUID='b244'
+GUID_CAP='B244'
